@@ -80,7 +80,7 @@ export const listarFavoritos = async () => {
 
 export const adicionarComentario = async (favoritoId, text) => {
     try {
-        const response = await API.post('/comentario/adicionar', { favoritoId, text });
+        const response = await API.post('/favoritos/comentario/adicionar', { favoritoId, text });
         return response;
     } catch (error) {
         return error.response;
@@ -89,9 +89,18 @@ export const adicionarComentario = async (favoritoId, text) => {
 
 export const removerComentario = async (favoritoId, comentarioId) => {
     try {
-        const response = await API.delete(`/comentario/remover/${favoritoId}/${comentarioId}`);
+        const response = await API.delete(`/favoritos/comentario/remover/${favoritoId}/${comentarioId}`);
         return response;
     } catch (error) {
         return error.response;
     }
 };
+
+export const listarComentarios = async (favoritoId) => {
+    try {
+        const response = await API.get(`/favoritos/comentario/listar/${favoritoId}`);
+        return response.data;
+    } catch (error) {
+        return error.response;
+    }
+}

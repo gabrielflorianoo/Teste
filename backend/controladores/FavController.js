@@ -81,13 +81,31 @@ export const removerComentario = async (req, res) => {
             return res.status(404).json({ message: 'Favorito não encontrado' });
         }
 
-        favorito.comments.id(comentarioId).remove();
+        favorito.comments.remove(comentarioId);
 
         await favorito.save();
 
         res.status(200).json({ message: 'Comentário removido com sucesso' });
     } catch (error) {
+        console.log(error);
         res.status(500).json({ message: 'Erro ao remover comentário', error });
+    }
+};
+
+// Função para listar os comentários de um favorito
+export const listarComentarios = async (req, res) => {
+    const { favoritoId } = req.params;
+
+    try {
+        const favorito = await ModeloFavorito.findById(favoritoId);
+
+        if (!favorito) {
+            return res.status(404).json({ message: 'Favorito não encontrado' });
+        }
+
+        res.status(200).json(favorito.comments);
+    } catch (error) {
+        res.status(500).json({ message: 'Erro ao listar comentários', error });
     }
 };
 

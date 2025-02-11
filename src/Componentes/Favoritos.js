@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { listarFavoritos, removerFavorito } from "../Backend/Servidor.js";
+import { listarFavoritos, removerComentario } from "../Backend/Servidor.js";
+import Comentario from "./Comentario.js";
 // import "../CSS/Favoritos.css";
 
 const Favoritos = () => {
@@ -24,7 +25,7 @@ const Favoritos = () => {
 
     const handleDesfavoritar = async (itemName) => {
         try {
-            await removerFavorito(itemName);
+            await removerComentario(itemName);
             setFavoritos(favoritos.filter(favorito => favorito.item !== itemName));
         } catch (error) {
             console.error(error);
@@ -42,6 +43,7 @@ const Favoritos = () => {
                     <div key={favorito._id} className="favorito-item">
                         <h3>{favorito.item}</h3>
                         <button onClick={() => handleDesfavoritar(favorito.item)}>Remover</button>
+                        <Comentario key={favorito._id} favoritoId={favorito._id} comentarios={favorito.comentarios} />
                     </div>
                 ))
             ) : (

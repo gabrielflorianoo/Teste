@@ -5,6 +5,7 @@ import {
     listarFavoritos,
     adicionarComentario,
     removerComentario,
+    listarComentarios,
     logado,
 } from '../controladores/FavController.js';
 
@@ -15,5 +16,6 @@ router.delete('/remover/:itemName', logado, removerFavorito);
 router.get('/listar/', logado, listarFavoritos);
 router.post('/comentario/adicionar', logado, adicionarComentario);
 router.delete('/comentario/remover/:favoritoId/:comentarioId', logado, removerComentario);
+router.get('/comentario/listar/:favoritoId', logado, listarComentarios);
 
 export default router;
