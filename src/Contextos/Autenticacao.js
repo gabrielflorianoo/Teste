@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
                 }
                 setLoading(false);
             } catch (err) {
-                setError(err.response.data);
+                setError(err);
                 setLoading(false);
             }
         }
@@ -62,7 +62,17 @@ export const AuthProvider = ({ children }) => {
         setLoading(true);
         try {
             const response = await criarUsuario(name, email, password);
-            setUser(response);
+
+            if (response.status === 400) {
+                // Campos faltando
+                throw Error("Por favor, preencha todos os campos!");
+            } else if (response.status === 499) {
+                // Usuário já existe
+                throw Error("Usuário já existe");
+            }
+
+            console.log("resposta: ", response);
+            setUser(response.data);
             setLoading(false);
         } catch (err) {
             setError(err.response.data);

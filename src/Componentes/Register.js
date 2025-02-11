@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../Contextos/Autenticacao";
 import "../CSS/Login.css"; // Reutilizando o mesmo arquivo de estilos, você pode personalizar para registro também
 
 const Register = () => {
@@ -8,8 +9,9 @@ const Register = () => {
     const [password, setPassword] = useState(""); // Para a senha
     const [confirmPassword, setConfirmPassword] = useState(""); // Para confirmar a senha
     const navigate = useNavigate();
+    const { register, error } = useAuth();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         // Validação simples
@@ -20,8 +22,12 @@ const Register = () => {
 
         // Simulação de registro (substituir por lógica real)
         if (email && password && name) {
-            alert("Registro bem-sucedido!");
-            navigate("/login"); // Redireciona para a página de login após o registro
+            await register(name, email, password);
+            console.log(error);
+
+            if (!error) {
+                navigate("/"); // Redireciona para a página inicial
+            }
         } else {
             alert("Por favor, preencha todos os campos!");
         }
@@ -69,6 +75,7 @@ const Register = () => {
                 />
 
                 <button type="submit">Registrar</button>
+                {error && <p className="error-message">{error}</p>}
             </form>
         </div>
     );

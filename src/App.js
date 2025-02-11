@@ -18,7 +18,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Conteudo />} />
                     <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
+                    <Route path="/registrar" element={<Register />} />
                     <Route path="/recipes" element={<CategoryList />} />
                     <Route path="/recipes/:category" element={<RecipeList />} />
                     <Route path="/recipe/:id" element={<RecipeDetail />} />

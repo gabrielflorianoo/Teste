@@ -20,7 +20,7 @@ export const criarUsuario = async (req, res) => {
         // Verifica se o usuário já existe
         const usuarioExistente = await ModeloUsuario.findOne({ email });
         if (usuarioExistente) {
-            return res.status(400).json({ message: 'Usuário já existe' });
+            return res.status(499).json({ message: 'Usuário já existe' });
         }
 
         // Criptografa a senha

@@ -22,9 +22,9 @@ const Comentario = ({ favoritoId, comentarios }) => {
         if (text.trim() === "") return;
 
         try {
-            const response = await adicionarComentario(favoritoId, text);
-            console.log(response);
-            setComentariosList([...comentariosList, response.data]);
+            const novoComentario = await adicionarComentario(favoritoId, text);
+            setComentariosList([...comentariosList, novoComentario.data.novoComentario]);
+            console.log(comentariosList);
             setText("");
         } catch (error) {
             console.error("Erro ao adicionar comentário:", error);
@@ -44,9 +44,9 @@ const Comentario = ({ favoritoId, comentarios }) => {
         <div className="comentarios">
             <h3>Comentários</h3>
             <ul>
-                {comentariosList && comentariosList.length > 0 && comentariosList.map((comentario) => (
-                    <li key={comentario._id}>
-                        {comentario.text}
+                {comentariosList && comentariosList.length > 0 && comentariosList.map((comentario, index) => (
+                    <li key={comentario._id || index} style={{ display: "flex" }}>
+                        <p>{comentario.text}</p>
                         <button onClick={() => handleRemoverComentario(comentario._id)}>Remover</button>
                     </li>
                 ))}

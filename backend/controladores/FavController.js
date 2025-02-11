@@ -64,7 +64,7 @@ export const adicionarComentario = async (req, res) => {
 
         await favorito.save();
 
-        res.status(201).json({ message: 'Comentário adicionado com sucesso' });
+        res.status(201).json({ message: 'Comentário adicionado com sucesso', novoComentario: favorito.comments[favorito.comments.length - 1] });
     } catch (error) {
         res.status(500).json({ message: 'Erro ao adicionar comentário', error });
     }
