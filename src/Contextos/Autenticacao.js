@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { criarUsuario, logarUsuario, deletarUsuario } from '../Backend/Servidor';
+import { criarUsuario, logarUsuario, deletarUsuario, buscarSecao, deslogarUsuario } from '../Backend/Servidor';
 
 const AuthContext = createContext();
 
@@ -8,19 +8,41 @@ export const AuthProvider = ({ children }) => {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
+    useEffect(() => {
+        setLoading(true);
+        const pegarUsuario = async () => {
+            try {
+                const response = await buscarSecao();
+                if (response.status === 200) {
+                    setUser(response.data);
+                }
+                setLoading(false);
+            } catch (err) {
+                setError(err.response.data);
+                setLoading(false);
+            }
+        }
+
+        pegarUsuario();
+    }, []);
+
     const login = async (email, password) => {
         setLoading(true);
         try {
             const response = await logarUsuario(email, password);
-            setUser(response);
+            if (response.status === 200) {
+                setUser(response.data);
+            }
             setLoading(false);
+            return response;
         } catch (err) {
             setError(err.response.data);
             setLoading(false);
         }
     };
 
-    const logout = () => {
+    const logout = async () => {
+        await deslogarUsuario();
         setUser(null);
     };
 

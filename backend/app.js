@@ -6,6 +6,7 @@ import cors from 'cors';
 import session from 'express-session';
 
 import usersRouter from './routes/users.js';
+import favoritosRouter from './routes/favoritos.js';
 import 'dotenv/config';
 import './bd/Servidor.js';
 
@@ -15,15 +16,19 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(cors());
+app.use(cors({
+	origin: 'http://localhost:3000',
+	credentials: true
+}));
 app.use(session({
 	secret: process.env.SESSION_SECRET || 'segredo_muito_secreto',
 	resave: false,
 	saveUninitialized: true,
-	cookie: { maxAge: 3600000 }
+	cookie: { maxAge: 3600000, sameSite: 'lax' }
 }))
 
 app.use('/users', usersRouter);
+app.use('/favoritos', favoritosRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

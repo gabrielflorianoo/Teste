@@ -6,6 +6,7 @@ import "../CSS/Login.css"; // Importa o arquivo de estilos
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
     const { login } = useAuth();
 
@@ -13,8 +14,12 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            await login(email, password);
-            navigate("/");
+            const resp = await login(email, password);
+            if (resp.status === 433) {
+                setError("Usuário não encontrado");
+            } else {
+                navigate("/");
+            }
         } catch (error) {
             console.log(error);
         }
@@ -43,6 +48,7 @@ const Login = () => {
                 />
 
                 <button type="submit">Entrar</button>
+                {error && <p style={{ color: 'red' }}>{error}</p>} {/* Exibe a mensagem de erro */}
             </form>
         </div>
     );

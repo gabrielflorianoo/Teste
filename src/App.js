@@ -8,6 +8,7 @@ import RecipeList from "./Componentes/RecipeList";
 import RecipeDetail from "./Componentes/RecipeDetail";
 import Login from "./Componentes/Login";
 import Register from "./Componentes/Register";
+import Favoritos from "./Componentes/Favoritos";
 
 function App() {
     return (
@@ -21,6 +22,7 @@ function App() {
                     <Route path="/recipes" element={<CategoryList />} />
                     <Route path="/recipes/:category" element={<RecipeList />} />
                     <Route path="/recipe/:id" element={<RecipeDetail />} />
+                    <Route path="/favoritos" element={<Favoritos />} />
                 </Routes>
                 <Footer />
             </div>

@@ -38,6 +38,7 @@ export const criarUsuario = async (req, res) => {
 
         // Adicionar usuário na sessão
         req.session.user = novoUsuario;
+        await req.session.save();
 
         res.status(201).json({ message: 'Usuário criado com sucesso' });
     } catch (error) {
@@ -68,13 +69,13 @@ export const logarUsuario = async (req, res) => {
         // Verifica se o usuário existe
         const usuario = await ModeloUsuario.findOne({ email });
         if (!usuario) {
-            return res.status(400).json({ message: 'Usuário não encontrado' });
+            return res.status(433).json({ message: 'Usuário não encontrado' });
         }
 
         // Verifica a senha
         const senhaValida = await bcrypt.compare(password, usuario.password);
         if (!senhaValida) {
-            return res.status(400).json({ message: 'Senha inválida' });
+            return res.status(434).json({ message: 'Senha inválida' });
         }
 
         // Adicionar usuário na sessão
@@ -96,5 +97,16 @@ export const buscarSecao = (req, res) => {
         }
     } catch (error) {
         res.status(500).json({ message: 'Erro ao buscar sessão', error });
+    }
+};
+
+export const deslogarUsuario = (req, res) => {
+    try {
+        // Remove o usuário da sessão
+        req.session.user = null;
+
+        res.status(200).json({ message: 'Usuário deslogado com sucesso' });
+    } catch (error) {
+        res.status(500).json({ message: 'Erro ao destruir sessão', error });
     }
 };

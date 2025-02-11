@@ -4,7 +4,8 @@ import { ModeloFavorito } from '../bd/Modelos.js';
 
 // Função para adicionar um favorito
 export const adicionarFavorito = async (req, res) => {
-    const { userId, item } = req.body;
+    const { item } = req.body;
+    const userId = req.session.user._id;
 
     try {
         const novoFavorito = new ModeloFavorito({
@@ -22,10 +23,10 @@ export const adicionarFavorito = async (req, res) => {
 
 // Função para remover um favorito
 export const removerFavorito = async (req, res) => {
-    const { id } = req.params;
+    const { itemName } = req.params;
 
     try {
-        await ModeloFavorito.findByIdAndDelete(id);
+        await ModeloFavorito.findOneAndDelete({ item: itemName });
 
         res.status(200).json({ message: 'Favorito removido com sucesso' });
     } catch (error) {
@@ -35,7 +36,7 @@ export const removerFavorito = async (req, res) => {
 
 // Função para listar os favoritos de um usuário
 export const listarFavoritos = async (req, res) => {
-    const { userId } = req.params;
+    const userId = req.session.user._id;
 
     try {
         const favoritos = await ModeloFavorito.find({ user: userId });
@@ -89,3 +90,11 @@ export const removerComentario = async (req, res) => {
         res.status(500).json({ message: 'Erro ao remover comentário', error });
     }
 };
+
+export const logado = (req, res, next) => {
+    if (!req.session.user) {
+        return res.status(401).json({ message: 'Usuário não autenticado' });
+    }
+
+    next();
+}

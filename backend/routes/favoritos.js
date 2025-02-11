@@ -4,45 +4,16 @@ import {
     removerFavorito,
     listarFavoritos,
     adicionarComentario,
-    removerComentario
+    removerComentario,
+    logado,
 } from '../controladores/FavController.js';
 
 const router = Router();
 
-router.post('/adicionar', adicionarFavorito);
-router.delete('/remover/:id', removerFavorito);
-router.get('/listar/:userId', listarFavoritos);
-router.post('/comentario/adicionar', adicionarComentario);
-router.delete('/comentario/remover/:favoritoId/:comentarioId', removerComentario);
-
-/*
-
-// JSON for testing adicionarFavorito
-{
-    "userId": "123",
-    "itemId": "456"
-}
-
-// JSON for testing removerFavorito
-{
-    "id": "789"
-}
-
-// JSON for testing listarFavoritos
-// No JSON body needed, just use the URL parameter
-
-// JSON for testing adicionarComentario
-{
-    "favoritoId": "123",
-    "comentario": "Este é um comentário de teste"
-}
-
-// JSON for testing removerComentario
-{
-    "favoritoId": "123",
-    "comentarioId": "456"
-}
-
-*/
+router.post('/adicionar', logado, adicionarFavorito);
+router.delete('/remover/:itemName', logado, removerFavorito);
+router.get('/listar/', logado, listarFavoritos);
+router.post('/comentario/adicionar', logado, adicionarComentario);
+router.delete('/comentario/remover/:favoritoId/:comentarioId', logado, removerComentario);
 
 export default router;

@@ -38,22 +38,28 @@ function Cabeca() {
                 </div>
             </div>
 
-            {user ? (
-                <div className="botoesaction">
-                    <button className="custom-button" onClick={logout}>
-                        Logout
+            <div className="botoesaction">
+                {user ? (
+                    <><button className="custom-button" onClick={() => navigate("/favoritos")}>
+                        Favoritos
                     </button>
-                </div>
-            ) : (
-                <div className="botoesaction">
-                    <button className="custom-button" onClick={handleLoginClick}>
+                        <button className="custom-button" onClick={logout}>
+                            Logout
+                        </button>
+                    </>
+                ) : (
+                    <><button className="custom-button" onClick={handleLoginClick}>
                         Login
                     </button>
-                    <button className="custom-button" onClick={handleRegisterClick}>
-                        Registrar-se
-                    </button>
-                </div>
-            )}
+                        <button className="custom-button" onClick={handleRegisterClick}>
+                            Registrar-se
+                        </button>
+                    </>
+                )}
+                <button className="custom-button" onClick={() => navigate("/")}>
+                    Voltar ao Início
+                </button>
+            </div>
         </div>
     );
 }

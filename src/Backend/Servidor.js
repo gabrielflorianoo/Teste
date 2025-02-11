@@ -1,88 +1,97 @@
 import axios from 'axios';
 
 const API = axios.create({
-    baseURL: 'http://localhost:3000',
+    baseURL: 'http://localhost:8000',
     withCredentials: true,
 });
 
 export const criarUsuario = async (name, email, password) => {
     try {
-        const response = await API.post('/criar', { name, email, password });
+        const response = await API.post('/users/criar', { name, email, password });
 
-        return response.data;
+        return response;
     } catch (error) {
-        return error.response.data;
+        return error.response;
     }
 }
 
 export const deletarUsuario = async (id) => {
     try {
-        const response = await API.delete(`/deletar/${id}`);
-        return response.data;
+        const response = await API.delete(`/users/deletar/${id}`);
+        return response;
     } catch (error) {
-        return error.response.data;
+        return error.response;
     }
 };
 
 export const logarUsuario = async (email, password) => {
     try {
-        const response = await API.post('/login', { email, password });
-        return response.data;
+        const response = await API.post('/users/login', { email, password });
+        return response;
     } catch (error) {
-        return error.response.data;
+        return error.response;
     }
 };
 
 export const buscarSecao = async () => {
     try {
-        const response = await API.get(`/secao`);
-        return response.data;
+        const response = await API.get(`/users/secao`);
+        return response;
     } catch (error) {
-        return error.response.data;
+        return error.response;
     }
 };
 
-const adicionarFavorito = async (userId, itemId) => {
+export const deslogarUsuario = async () => {
     try {
-        const response = await API.post('/adicionar', { userId, itemId });
-        return response.data;
+        const response = await API.get(`/users/logout`);
+        return response;
     } catch (error) {
-        return error.response.data;
+        return error.response;
     }
 }
 
-export const removerFavorito = async (userId, itemId) => {
+export const adicionarFavorito = async (itemName) => {
     try {
-        const response = await API.post('/remover', { userId, itemId });
-        return response.data;
+        const response = await API.post('/favoritos/adicionar', { item: itemName });
+        return response;
     } catch (error) {
-        return error.response.data;
+        return error.response;
+    }
+}
+
+export const removerFavorito = async (itemName) => {
+    try {
+        const response = await API.delete(`/favoritos/remover/${itemName}`);
+        return response;
+    } catch (error) {
+        return error.response;
     }
 };
 
-export const listarFavoritos = async (userId) => {
+export const listarFavoritos = async () => {
     try {
-        const response = await API.get(`/favoritos/${userId}`);
+        const response = await API.get(`/favoritos/listar`);
         return response.data;
     } catch (error) {
-        return error.response.data;
+        return error.response;
     }
 };
 
 export const adicionarComentario = async (favoritoId, text) => {
     try {
         const response = await API.post('/comentario/adicionar', { favoritoId, text });
-        return response.data;
+        return response;
     } catch (error) {
-        return error.response.data;
+        return error.response;
     }
 };
 
 export const removerComentario = async (favoritoId, comentarioId) => {
     try {
         const response = await API.delete(`/comentario/remover/${favoritoId}/${comentarioId}`);
-        return response.data;
+        return response;
     } catch (error) {
-        return error.response.data;
+        return error.response;
     }
 };
